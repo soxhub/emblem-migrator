@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const globby = require('globby');
 const Emblem = require('emblem');
-const prettier = require('prettier');
 const ProgressBar = require('progress');
 
 async function run() {
@@ -44,11 +43,8 @@ async function run() {
     // convert Emblem.js to Handlebars
     let hbs = Emblem.compile(emblem, { quiet: true });
 
-    // run Handlebars template through `prettier`
-    let prettyHbs = prettier.format(hbs, { parser: 'glimmer' });
-
     // write new Handlebars template file
-    fs.writeFileSync(newPath, prettyHbs, 'utf8');
+    fs.writeFileSync(newPath, hbs, 'utf8');
 
     // remove old Emblem.js template file
     fs.unlinkSync(oldPath);
